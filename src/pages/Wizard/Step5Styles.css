@@ -1,0 +1,109 @@
+/* Step 5 Status */
+.status-page {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 24px;
+}
+
+.status-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.status-header p {
+    color: var(--text-secondary);
+}
+
+.jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.job-card {
+    background-color: var(--bg-app);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.job-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.job-plat {
+    font-size: 1rem;
+}
+
+.job-count {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.job-status {
+    display: flex;
+    align-items: center;
+}
+
+.s-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.s-badge.queued {
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.s-badge.progress {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.s-badge.success {
+    background-color: #dcfce7;
+    color: var(--success);
+}
+
+.s-badge.failed {
+    background-color: #fee2e2;
+    color: var(--error);
+}
+
+.job-error {
+    font-size: 0.8rem;
+    color: var(--error);
+    margin-top: 4px;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.finish-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
+}

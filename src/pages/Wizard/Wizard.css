@@ -1,0 +1,730 @@
+/* Main Page */
+.wizard-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.wizard-header {
+    margin-bottom: 32px;
+}
+
+/* Steps Indicator */
+.steps-indicator {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    gap: 12px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    position: relative;
+}
+
+.step-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    background-color: var(--bg-surface);
+}
+
+.step-item.active .step-circle {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.step-item.current .step-circle {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.step-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.step-line {
+    width: 32px;
+    height: 1px;
+    background-color: var(--border-color);
+    margin-left: 4px;
+}
+
+.step-item.active .step-line {
+    background-color: var(--primary-color);
+}
+
+/* Wizard Content Container */
+.wizard-content {
+    flex: 1;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.step-container {
+    display: flex;
+    height: 100%;
+}
+
+.step-main {
+    flex: 1;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.step-title {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.step-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* Step 1: Creative Grid */
+.creatives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+}
+
+.creative-card-select {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s;
+    background-color: var(--bg-app);
+}
+
+.creative-card-select:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.creative-card-select.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.card-thumb {
+    height: 100px;
+    background-color: #000;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px;
+}
+
+.selection-badge {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.card-info {
+    padding: 12px;
+}
+
+.card-name {
+    display: block;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Step 1: Tray */
+.selection-tray {
+    width: 300px;
+    border-left: 1px solid var(--border-color);
+    padding: 24px;
+    background-color: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+}
+
+.selection-tray h3 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.tray-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tray-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.tray-row.highlight {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-top: 8px;
+}
+
+.tray-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.tray-list h4 {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.tray-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.remove-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--text-secondary);
+}
+
+/* Step 2 Platforms */
+.platforms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.platform-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--bg-app);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.platform-card:hover {
+    border-color: var(--text-secondary);
+}
+
+.platform-card.selected {
+    border-color: var(--primary-color);
+    background-color: var(--bg-surface);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.p-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.p-icon-lg {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.check-icon {
+    color: var(--primary-color);
+}
+
+.p-name {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.p-req {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+/* Validation Panel for Step 2 */
+.validation-panel {
+    width: 320px;
+    border-left: 1px solid var(--border-color);
+    padding: 24px;
+    background-color: var(--bg-app);
+    display: flex;
+    flex-direction: column;
+}
+
+.validation-panel h3 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.issue-card {
+    background-color: #fff4e5;
+    border: 1px solid #fed7aa;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.issue-card.warning {
+    color: #c2410c;
+}
+
+.issue-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.encourage-btn {
+    margin-top: 8px;
+    background-color: #fff;
+    border: 1px solid #fed7aa;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #c2410c;
+    cursor: pointer;
+}
+
+.success-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    margin-top: 40px;
+    color: var(--success);
+}
+
+/* Step 3 Styles */
+.step-container-col {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tabs-header {
+    display: flex;
+    gap: 2px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    padding: 0 24px;
+    padding-top: 16px;
+}
+
+.platform-tab {
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-bottom: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 6px 6px 0 0;
+    transition: all 0.2s;
+}
+
+.platform-tab:hover {
+    color: var(--text-main);
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.platform-tab.active {
+    background-color: var(--bg-surface);
+    border-color: var(--border-color);
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--bg-surface);
+    margin-bottom: -1px;
+    font-weight: 600;
+}
+
+.tab-content {
+    flex: 1;
+    padding: 32px;
+    background-color: var(--bg-surface);
+    overflow-y: auto;
+}
+
+.platform-form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-section {
+    margin-bottom: 32px;
+}
+
+.form-section h4 {
+    font-size: 1rem;
+    margin-bottom: 16px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+}
+
+.naming-rule {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 24px;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+/* Step 4 Review */
+.review-table-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.review-table th {
+    background-color: var(--bg-app);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.review-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.p-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #fff;
+    background-color: #94a3b8;
+}
+
+.p-badge.meta {
+    background-color: #1877F2;
+}
+
+.p-badge.tiktok {
+    background-color: #000;
+}
+
+.p-badge.google {
+    background-color: #4285F4;
+}
+
+.p-badge.unity {
+    background-color: #000;
+}
+
+.p-badge.applovin {
+    background-color: #10B981;
+}
+
+.ad-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.sub-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.status-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-tag.ready {
+    color: var(--success);
+}
+
+.status-tag.error {
+    color: var(--error);
+}
+
+.review-summary {
+    width: 300px;
+    background-color: var(--bg-app);
+    border-left: 1px solid var(--border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-summary h3 {
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+}
+
+.summary-stats {
+    margin-bottom: 24px;
+}
+
+.warning-box {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    gap: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+}
+
+.full-width {
+    width: 100%;
+    margin-top: auto;
+    padding: 12px;
+}
+
+/* Footer (Common) -> Toolbar Top */
+.wizard-footer,
+.wizard-toolbar-top {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    /* Space below toolbar */
+}
+
+/* Original Wizard Footer (bottom) override if needed */
+.wizard-footer {
+    padding: 16px 0;
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Enhanced Back Button */
+/* Enhanced Back/Next Buttons */
+.btn-secondary,
+.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Margins for Step 3 Forms */
+.form-section {
+    margin-bottom: 48px;
+}
+
+/* Toggle Button Sizing */
+.toggle-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.toggle-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.radio-toggle-group {
+    display: flex;
+    gap: 8px;
+}
+
+/* Account Row in Step 3 */
+.account-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Link New Button - styled like a small secondary button */
+.btn-text-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    margin-left: 0;
+    /* Remove margin as gap handles it */
+}
+
+.btn-text-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    text-decoration: none;
+}

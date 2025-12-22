@@ -1,0 +1,59 @@
+/* Step 3 Styling Overrides */
+
+/* Radio Toggle Group (Ad Set) */
+.radio-toggle-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.toggle-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-surface);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+    border-color: var(--text-secondary);
+}
+
+.toggle-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.toggle-btn input {
+    display: none;
+}
+
+.naming-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    display: block;
+}
+
+/* Back Button */
+.btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+.btn-secondary:hover {
+    background-color: var(--bg-hover) !important;
+}

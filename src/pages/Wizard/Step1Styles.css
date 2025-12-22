@@ -1,0 +1,128 @@
+/* Step 1 Specific Styles */
+.filter-group-inline {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-chip {
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-app);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-chip:hover {
+    background-color: var(--bg-surface);
+    border-color: var(--text-secondary);
+}
+
+.filter-chip.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.card-thumb {
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.type-overlay {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: capitalize;
+}
+
+.selection-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.partial-badge {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    background-color: #fff;
+}
+
+.dims-selector {
+    margin-top: 8px;
+}
+
+.dims-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.dims-list {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.dim-chip {
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.dim-chip:hover {
+    border-color: var(--primary-color);
+}
+
+.dim-chip.selected {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.tray-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.t-name {
+    font-weight: 500;
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+}
+
+.t-dim {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.empty-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 24px;
+}
