@@ -23,8 +23,9 @@ const CreativeDrawer = ({ creative, onClose }) => {
 
     const handleFullScreen = (v) => {
         setFullScreenPreview({
-            src: creative.thumb,
-            ratio: getAspectRatio(v.dim)
+            src: creative.type === 'video' ? (creative.videoUrl || creative.thumb) : creative.thumb,
+            ratio: getAspectRatio(v.dim),
+            type: creative.type
         });
     };
 
@@ -56,7 +57,11 @@ const CreativeDrawer = ({ creative, onClose }) => {
                                             className="version-preview"
                                             style={getAspectRatioStyle(v.dim)}
                                         >
-                                            <img src={creative.thumb} alt="" className="v-img" />
+                                            {creative.type === 'video' ? (
+                                                <video src={creative.videoUrl || creative.thumb} className="v-img" muted playsInline />
+                                            ) : (
+                                                <img src={creative.thumb} alt="" className="v-img" />
+                                            )}
                                             <button
                                                 className="expand-btn"
                                                 onClick={(e) => { e.stopPropagation(); handleFullScreen(v); }}
@@ -117,7 +122,11 @@ const CreativeDrawer = ({ creative, onClose }) => {
                             <X size={24} />
                         </button>
                         <div className="fs-media-wrapper" style={getAspectRatioStyle(fullScreenPreview.ratio)}>
-                            <img src={fullScreenPreview.src} alt="Full Screen" />
+                            {fullScreenPreview.type === 'video' ? (
+                                <video src={fullScreenPreview.src} controls autoPlay className="fs-video" />
+                            ) : (
+                                <img src={fullScreenPreview.src} alt="Full Screen" />
+                            )}
                         </div>
                     </div>
                 </div>

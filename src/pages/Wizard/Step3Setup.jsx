@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PlatformIcon } from '../../utils/creativeUtils';
 import './Step3Styles.css';
 
 const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
@@ -191,8 +192,8 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
                         className={`tab-btn ${activeTab === p ? 'active' : ''} ${p}`}
                         onClick={() => setActiveTab(p)}
                     >
-                        <span className={`p-icon-sm ${p}`}></span>
-                        {p}
+                        <PlatformIcon p={p} />
+                        <span className="tab-label">{p.charAt(0).toUpperCase() + p.slice(1)}</span>
                     </button>
                 ))}
             </div>

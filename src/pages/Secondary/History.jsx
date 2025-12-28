@@ -82,7 +82,7 @@ const History = () => {
                 </div>
                 <div className="stat-card">
                     <div className="stat-label">Last Activity</div>
-                    <div className="stat-val text-sm">{history[0]?.date || 'N/A'}</div>
+                    <div className="stat-val text-sm">{filteredHistory[0]?.date || 'N/A'}</div>
                 </div>
             </div>
 

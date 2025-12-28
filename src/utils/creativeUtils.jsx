@@ -119,7 +119,8 @@ export const extractMetadata = async (file) => {
                 resolve({
                     id: Math.random().toString(36).substr(2, 9),
                     name, type, dimensions: [dim], platforms,
-                    owner: 'Me', date, thumb, size: file.size, lastModified: file.lastModified
+                    owner: 'Me', date, thumb, size: file.size, lastModified: file.lastModified,
+                    videoUrl: url // Store the blob URL for real playback
                 });
             };
             video.onerror = () => resolve({ id: Math.random().toString(36).substr(2, 9), name, type: 'other', dimensions: ['Unknown'], date, owner: 'Me', thumb: '' });
