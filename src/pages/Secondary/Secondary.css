@@ -153,6 +153,62 @@
     font-size: 0.85rem;
 }
 
+.meta-utils {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.meta-utils .btn-text-link {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-app);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-main);
+    transition: all 0.22s;
+}
+
+.meta-utils .btn-text-link:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.meta-utils .btn-text-link:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+.sync-status-msg {
+    width: 100%;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
 /* Settings */
 .settings-layout {
     display: flex;

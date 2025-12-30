@@ -1,23 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { PlatformIcon } from '../../utils/creativeUtils';
+import { RefreshCw } from 'lucide-react';
+import { useData } from '../../context/DataContext';
+import { fetchCampaigns, fetchAdSets, MOCK_CAMPAIGNS, MOCK_ADSETS } from '../../services/metaService';
 import './Step3Styles.css';
 
 const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
-    // Default to first selected platform or empty string
-    const [activeTab, setActiveTab] = useState(selectedPlatforms[0] || '');
-    const [formData, setFormData] = useState({});
+    const { metaToken } = useData();
 
-    // Mock data
-    const existingCampaigns = [
+    // Explicitly find the first valid platform to start with
+    const [activeTab, setActiveTab] = useState(() => {
+        if (selectedPlatforms.includes('meta')) return 'meta';
+        return selectedPlatforms[0] || '';
+    });
+
+    const [formData, setFormData] = useState({});
+    const [metaCampaigns, setMetaCampaigns] = useState(MOCK_CAMPAIGNS);
+    const [metaAdSets, setMetaAdSets] = useState(MOCK_ADSETS);
+    const [isLoading, setIsLoading] = useState(false);
+    const [fetchError, setFetchError] = useState(null);
+
+    // Mock data for other platforms
+    const mockCampaigns = [
         { id: 'c1', name: 'User Acquisition Q4' },
         { id: 'c2', name: 'Retargeting Nov' },
     ];
 
-    const existingAdSets = [
+    const mockAdSets = [
         { id: 'as1', name: 'US_Males_18-34_Int' },
         { id: 'as2', name: 'WW_Broad_Android' },
         { id: 'as3', name: 'T1_iOS_HighLTV' },
     ];
+
+    // Meta-specific fetching
+    const loadMetaData = async (force = false) => {
+        if (!metaToken && !force) return;
+
+        setIsLoading(true);
+        setFetchError(null);
+        try {
+            console.log('[Step3Setup] Fetching Meta data...');
+            const [camps, adsets] = await Promise.all([
+                fetchCampaigns(metaToken),
+                fetchAdSets(metaToken)
+            ]);
+
+            // If they returned something, use it. Otherwise retain mocks.
+            if (camps && camps.length > 0) setMetaCampaigns(camps);
+            if (adsets && adsets.length > 0) setMetaAdSets(adsets);
+
+            console.log('[Step3Setup] Fetch complete:', { camps: camps?.length, adsets: adsets?.length });
+        } catch (e) {
+            console.error('Failed to load Meta data:', e);
+            setFetchError(e.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (activeTab === 'meta' && metaToken) {
+            loadMetaData();
+        }
+    }, [activeTab, metaToken]);
 
     // Auto-name helper
     const getAutoName = (campName) => {
@@ -68,6 +113,12 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
         const data = formData[platform] || {};
         const mode = data.campaignMode || 'existing';
 
+        // Robust fallback: if meta state is empty, use the constant mocks directly
+        let currentCampaigns = mockCampaigns;
+        if (platform === 'meta') {
+            currentCampaigns = (metaCampaigns && metaCampaigns.length > 0) ? metaCampaigns : MOCK_CAMPAIGNS;
+        }
+
         const handleCampaignChange = (val, isId) => {
             // Update Campaign Field
             handleChange(platform, isId ? 'campaignId' : 'campaignName', val);
@@ -75,7 +126,7 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
             // Auto-fill Naming
             let cName = val;
             if (isId) {
-                const c = existingCampaigns.find(ec => ec.id === val);
+                const c = currentCampaigns.find(ec => ec.id === val);
                 cName = c ? c.name : '';
             }
             if (!data.naming || data.naming.includes('{Campaign}')) {
@@ -119,8 +170,8 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
                         value={data.campaignId || ''}
                         onChange={(e) => handleCampaignChange(e.target.value, true)}
                     >
-                        <option value="">Select Campaign...</option>
-                        {existingCampaigns.map(c => (
+                        <option value="">{isLoading ? 'Loading...' : 'Select Campaign...'}</option>
+                        {currentCampaigns.map(c => (
                             <option key={c.id} value={c.id}>{c.name}</option>
                         ))}
                     </select>
@@ -132,6 +183,10 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
     const renderAdSetSection = (platform) => {
         const data = formData[platform] || {};
         const mode = data.adSetMode || 'existing';
+
+        const handleAdSetChange = (val) => {
+            handleChange(platform, 'existingAdSetId', val);
+        };
 
         return (
             <div className="form-group">
@@ -167,10 +222,10 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
                     <select
                         className="select-input"
                         value={data.existingAdSetId || ''}
-                        onChange={(e) => handleChange(platform, 'existingAdSetId', e.target.value)}
+                        onChange={(e) => handleAdSetChange(e.target.value)}
                     >
-                        <option value="">Select an Ad Set...</option>
-                        {existingAdSets.map(as => (
+                        <option value="">{isLoading ? 'Loading...' : 'Select an Ad Set...'}</option>
+                        {((platform === 'meta' && metaAdSets && metaAdSets.length > 0) ? metaAdSets : (platform === 'meta' ? MOCK_ADSETS : mockAdSets)).map(as => (
                             <option key={as.id} value={as.id}>{as.name}</option>
                         ))}
                     </select>
@@ -216,6 +271,19 @@ const Step3Setup = ({ selectedPlatforms = [], onValidationChange }) => {
 
                         {renderCampaignSection(activeTab)}
                         {renderAdSetSection(activeTab)}
+
+                        {activeTab === 'meta' && (
+                            <div className="meta-sync-indicator">
+                                {isLoading ? (
+                                    <span className="sync-msg muted">Updating from Meta...</span>
+                                ) : (
+                                    <button className="btn-text-link sm" onClick={() => loadMetaData(true)}>
+                                        <RefreshCw size={12} /> Refresh Meta Data
+                                    </button>
+                                )}
+                                {fetchError && <span className="error-text">! Error: {fetchError} (Showing mocks)</span>}
+                            </div>
+                        )}
 
                         <div className="form-group">
                             <label className="input-label">Naming Convention</label>

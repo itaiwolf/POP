@@ -3,10 +3,11 @@ import { Loader2, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { useData } from '../../context/DataContext';
 import { useGame } from '../../context/GameContext';
+import { createAdCreative, deployAdsBatch } from '../../services/metaService';
 
 const Step5Status = ({ selectedPlatforms, selectedCreatives, allCreatives }) => {
     const { selectedGame } = useGame();
-    const { addHistoryItem, markAsUploaded } = useData();
+    const { addHistoryItem, markAsUploaded, metaToken } = useData();
     const [jobs, setJobs] = useState([]);
     const [hasProcessed, setHasProcessed] = useState(false);
 
@@ -45,34 +46,60 @@ const Step5Status = ({ selectedPlatforms, selectedCreatives, allCreatives }) => 
             }, startDelay));
 
             // Finish Job
-            timers.push(setTimeout(() => {
-                // FORCE SUCCESS for TikTok (and everything else) as requested
-                const isSuccess = true;
+            timers.push(setTimeout(async () => {
+                if (job.id === 'meta') {
+                    try {
+                        // Meta Specific Flow
+                        const uniqueCreativesIds = [...new Set(selectedCreatives.map(s => s.split('-')[0]))];
+                        const metaCreatives = allCreatives.filter(c => uniqueCreativesIds.includes(c.id.toString()));
 
-                if (isSuccess) {
+                        // 1. Create AdCreatives (simplified for MVP)
+                        const adCreativeIds = await Promise.all(
+                            metaCreatives.map(c => createAdCreative(c.metaImageHash || 'mock_hash', {
+                                adCopy: 'Check out our new game!',
+                                destUrl: 'https://pop.studios/play',
+                                cta: 'LEARN_MORE'
+                            }, metaToken))
+                        );
+
+                        // 2. Batch Deploy Ads
+                        const adIds = await deployAdsBatch(adCreativeIds, 'sandbox_adset_id', metaToken);
+
+                        updateJobStatus('meta', 'success');
+
+                        // 3. Log to History
+                        addHistoryItem({
+                            id: Date.now() + Math.random(),
+                            gameId: selectedGame.id,
+                            platform: 'Meta Ads',
+                            campaign: 'Meta Batch MVP',
+                            status: 'Success',
+                            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                            creatives: uniqueCreativesIds.length,
+                            adIds: adIds // Store the real IDs
+                        });
+
+                        uniqueCreativesIds.forEach(cId => markAsUploaded(parseInt(cId), 'meta'));
+
+                    } catch (e) {
+                        updateJobStatus('meta', 'failed', e.message);
+                    }
+                } else {
+                    // Standard Simulation for other platforms
                     updateJobStatus(job.id, 'success');
-
-                    // Add to REAL Global History
                     addHistoryItem({
                         id: Date.now() + Math.random(),
-                        gameId: selectedGame.id, // Save Game ID for filtering
+                        gameId: selectedGame.id,
                         platform: job.platform,
-                        campaign: 'New Campaign', // Mock logic
+                        campaign: 'New Campaign',
                         status: 'Success',
                         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                         creatives: job.items
                     });
 
-                    // Mark Creatives as Uploaded
                     const uniqueCreativesIds = [...new Set(selectedCreatives.map(s => s.split('-')[0]))];
-                    uniqueCreativesIds.forEach(cId => {
-                        markAsUploaded(parseInt(cId), job.id); // job.id is platformId (e.g. 'tiktok')
-                    });
-
-                } else {
-                    updateJobStatus(job.id, 'failed', 'Network Error');
+                    uniqueCreativesIds.forEach(cId => markAsUploaded(parseInt(cId), job.id));
                 }
-
             }, startDelay + duration));
         });
 

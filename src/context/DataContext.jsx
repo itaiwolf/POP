@@ -47,6 +47,16 @@ export const DataProvider = ({ children }) => {
     // 3. Upload Status
     const [uploadedStatus, setUploadedStatus] = useState(() => safeParse('pop_uploaded', {}));
 
+    // 4. Meta Authentication
+    const [metaToken, setMetaTokenState] = useState(() => {
+        return (localStorage.getItem('pop_meta_token') || '').trim();
+    });
+
+    const setMetaToken = (val) => {
+        const cleaned = (val || '').trim();
+        setMetaTokenState(cleaned);
+    };
+
     // Persistence Effects
     React.useEffect(() => {
         try {
@@ -71,6 +81,18 @@ export const DataProvider = ({ children }) => {
             console.error('Failed to save uploadedStatus', e);
         }
     }, [uploadedStatus]);
+
+    React.useEffect(() => {
+        try {
+            if (metaToken) {
+                localStorage.setItem('pop_meta_token', metaToken);
+            } else {
+                localStorage.removeItem('pop_meta_token');
+            }
+        } catch (e) {
+            console.error('Failed to save metaToken', e);
+        }
+    }, [metaToken]);
 
     // Actions
     const addCreatives = (newCreatives) => {
@@ -99,16 +121,23 @@ export const DataProvider = ({ children }) => {
         setCreatives(prev => prev.filter(c => !ids.includes(c.id)));
     };
 
+    const updateCreative = (id, data) => {
+        setCreatives(prev => prev.map(c => c.id === id ? { ...c, ...data } : c));
+    };
+
     const value = {
         creatives,
         setCreatives,
         addCreatives,
         deleteCreatives,
+        updateCreative,
         history,
         addHistoryItem,
         uploadedStatus,
         markAsUploaded,
-        isUploaded
+        isUploaded,
+        metaToken,
+        setMetaToken
     };
 
     return (
